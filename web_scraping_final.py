@@ -36,6 +36,7 @@ data = data.replace(to_replace ='[\r\t]', value = '', regex = True)
 data1 = data.Person.str.split(',', expand=True)
 data2 = pd.concat([data.Company, data1.iloc[:,[0,1,5,16,17]]], axis=1)
 data2.columns = ['Company','Name', 'Email', 'Tel', 'Fax', 'Website']
+data2.Company = data2.Company.apply(lambda x: x.strip())
 data2.Company = data2.Company.str.replace('^\d+', '', regex=True)
 data2.Name = data2.Name.str.replace(r"Contact Person: ", "", regex=True)
 data2.Email = data2.Email.str.replace(r"Email: ", "", regex=True)
