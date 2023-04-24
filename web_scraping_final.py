@@ -1,10 +1,11 @@
 
 import pandas as pd
 import requests
-import re
 from csv import writer
 from bs4 import BeautifulSoup
 
+
+#SCRAP WEB DATA AND SAVE AS FILE
 with open("result.csv", "w", encoding="utf8", newline="") as f:
     thewriter = writer(f)
     header = ["Company", "Person"]
@@ -30,27 +31,18 @@ with open("result.csv", "w", encoding="utf8", newline="") as f:
 
 
 #DATA CLEANING IN CSV
-data=pd.read_csv(r'c:\users\t520\documents\Github\result.csv', encoding = "ISO-8859-1")
+data=pd.read_csv(r'c:\users\t520\documents\Github\web_scraping\result.csv', encoding = "ISO-8859-1")
 data = data.replace(to_replace ='[\r\t]', value = '', regex = True)
-
 data1 = data.Person.str.split(',', expand=True)
-#data2 =pddata.Company
-#data2 =data1.iloc[:,[0,1,5,16,17]]
 data2 = pd.concat([data.Company, data1.iloc[:,[0,1,5,16,17]]], axis=1)
-#print(data2.head(10).to_string())
-#data4.drop('BBB', inplace=True, axis=1)
 data2.columns = ['Company','Name', 'Email', 'Tel', 'Fax', 'Website']
-
 data2.Company = data2.Company.str.replace('^\d+', '', regex=True)
 data2.Name = data2.Name.str.replace(r"Contact Person: ", "", regex=True)
 data2.Email = data2.Email.str.replace(r"Email: ", "", regex=True)
-#Telephone = data2.Tel.str.replace(r"Tel: ", " ", regex=True)
-data2.Fax = data2.Fax.str.replace(r"Fax: ", "", regex=True)
+data2.Tel = data2.Tel.replace(to_replace ='[- +]', value ='', regex = True)
+data2.Fax = data2.Fax.replace(to_replace ='[- +Fax:]', value ='', regex = True)
 data2.Website = data2.Website.str.replace(r"Website: ", "", regex=True)
-
-#data3 =  pd.concat([Name, Email, Telephone, Fax, Website], axis=1)
-#print(data3)
 print(data2.head(10).to_string())
-#data4 =  pd.concat([data.Company, data3], axis=1)
-#data4.drop('BBB', inplace=True, axis=1)
-data2.to_csv(r'c:\users\t520\documents\Github\rubbercompany.csv', index=False)
+
+#SAVE THE CLEAN TO CSV
+data2.to_csv(r'c:\users\t520\documents\Github\web_scraping\rubbercompany.csv', index=False)
