@@ -14,7 +14,6 @@ with open("result.csv", "w", encoding="utf8", newline="") as f:
     pageno = 45
     while i <= pageno:
 
-       # URL = "https://www.myrubbercouncil.com/marketplace/public/search_product.php?page="+str(i)+"&prokeyword=rubber&category=&subcategory=&rubber_type=&supkeyword=&state_id=&buss_id="
         URL = "https://www.myrubbercouncil.com/marketplace/public/search_supplier.php?page="+str(i)+"&prokeyword2=bhd"
         page = requests.get(URL)
         soup = BeautifulSoup(page.content, "html.parser")
